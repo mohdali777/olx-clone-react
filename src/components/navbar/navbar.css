@@ -1,0 +1,180 @@
+.Navbar{
+    display: flex;
+    padding: 10px 20px;
+    gap: 10px;
+}
+.Navbar img{
+    width: 48px;
+    height: 48px;
+}
+.inputFeild{
+    display: flex;
+    gap: 20px;
+}
+.inputFeild input {
+    width: 100%;
+    border-radius: 4px;
+    text-align: start;
+}
+.inputFeild .SearchLoc input{
+    padding: 13px 50px;
+}
+.inputFeild .searchProducts input{
+    padding: 13px 250px;
+}
+.SearchLoc{
+    position: relative;
+}
+.searchProducts{
+    position: relative;
+}
+
+.SearchLoc .iconsNav{
+   left: 20px;
+   top: 15px;
+   position: absolute;
+   
+}
+.searchProducts .iconsNav{
+    right: 10px;
+    top: 15px;
+    position: absolute;
+}
+
+.search{
+   background-color: #002f34;
+   fill: white;
+   color: white;
+   padding: 14px;
+   top: 0;
+   margin-top: -14px;
+   margin-right: -10px;
+}
+
+.inputFeild select{
+    padding: 12px 10px;
+    border-radius: 4px;
+    border: none;
+    font-size: 15px;
+    color: #002f34 ;
+}
+.buttons{
+    display: flex;
+    gap: 30px;
+    padding: 15px;
+}
+.buttons .iconsButtons{
+    display: flex;
+    gap: 20px;
+}
+.iconB{
+    width: 24px;
+    height: 24px;
+   
+}
+
+.profileIcon{
+position: relative;
+}
+.DropDownP {
+    background-color: white;
+    position: absolute;
+    width: 300px;
+    height: fit-content;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Soft shadow instead of border */
+    left: -200px;
+    top: 30px;
+    border-radius: 8px; /* Optional: smooth corners */
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    z-index: 1;
+}
+.profilDropDown{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.profilDropDown ul li{
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+.profilDropDown button{
+    width: 100%;
+    padding: 12px 10px;
+    border-radius: 4px;
+    background-color: #002f34;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+}
+.profilDropDown button:hover{
+    background-color: white;
+    color: #002f34;
+}
+.profilDropDown .icon-Profile{
+    width: 48px;
+    height: 48px;
+}
+.profilDropDown h1{
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0px;
+}
+
+.profileDown2 .profileDown3, ul li{
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+.profileDown2 .profileDown3, ul{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.profileDown2 .profileDown3, h1{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+  .sell-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #000;
+    background: white;
+    position: relative;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sell-button::before {
+    content: "";
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(90deg, #0CF5FF, #00C3FF, #FF9000, #FF00B8);
+    border-radius: 53px;
+    z-index: -1;
+  }
+  
+  .sell-button .plus {
+    margin-right: 8px;
+    font-size: 15px;
+  }
+  .Loginst{
+    text-decoration: underline;
+  }
+  .Loginst:hover{
+    text-decoration: none;
+  }
