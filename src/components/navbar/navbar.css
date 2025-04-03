@@ -1,7 +1,10 @@
+
 .Navbar{
     display: flex;
+    justify-content: center;
     padding: 10px 20px;
     gap: 10px;
+    width: 100%;
 }
 .Navbar img{
     width: 48px;
@@ -177,4 +180,51 @@ position: relative;
   }
   .Loginst:hover{
     text-decoration: none;
+  }
+@media (max-width:1160px) {
+    .inputFeild .SearchLoc input{
+        padding: 13px 50px;
+    }
+    .inputFeild .searchProducts input{
+        padding: 13px 100px;
+    }
+}
+
+  @media (max-width:960px) {
+    .inputFeild .SearchLoc input{
+        padding: 13px 50px;
+    }
+    .inputFeild .searchProducts input{
+        padding: 13px 100px;
+    }
+  }
+  @media (max-width:880px) {
+    .inputFeild .SearchLoc input{
+        padding: 13px 50px;
+    }
+    .inputFeild .searchProducts input{
+        padding: 13px 0px;
+        font-size: 1px;
+    }
+  }
+  @media (max-width:540px) {
+    .inputFeild{
+        display: none;
+    }
+    .inputFeild .SearchLoc input{
+        display: none;
+    }
+    .inputFeild .searchProducts input{
+        display: none;
+
+    }
+    .SearchLoc .iconsNav{
+        display: none;
+
+        
+     }
+     .searchProducts .iconsNav{
+        display: none;
+
+     }
   }

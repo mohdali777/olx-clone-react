@@ -1,73 +1,117 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './addproduct.css'
+import { db,addDoc,collection } from '../../firebase';
+import axios from 'axios';
+import { MyContext } from '../../context/context';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function AddProduct() {
+ const {user} = useContext(MyContext)
+ const navigate = useNavigate()
+  useEffect(()=>{
+  function checkLogin(){
+    if(!user){
+      navigate('/')
+    }else{
+      navigate('/add-product')
+    }
+  }
+  checkLogin()
+  },[])
   // State for form values
   const [formData, setFormData] = useState({
+    category: '',
     title: '',
     description: '',
-    brand: '',
-    condition: 'used',
     price: '',
-    negotiable: false,
     state: '',
-    city: '',
-    neighborhood: ''
+    District: '',
+    images:[]
   });
+
+  const [selectedImages, setSelectedImages] = useState([]);
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedImages([...selectedImages, ...files]);
+    console.log(files);
+    console.log(selectedImages);
+    
+  };
+
+
 
   // Handle input changes
   const handleChange = (e) => {
-    const { id, value, type, checked } = e.target;
+    const { id, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
-      [id]: type === 'checkbox' ? checked : value
+      [id]: value
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically send data to your backend
+
+    if(!formData.title){
+      toast.error("title Needed")
+    }
+    try {
+      const uploadedImages = [];
+      for (let file of selectedImages) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'Olx-products'); // Replace with Cloudinary preset
+        formData.append('cloud_name', 'dy5xp5ai5'); // Replace with your Cloudinary cloud name
+
+        const res = await axios.post(
+          `https://api.cloudinary.com/v1_1/dy5xp5ai5/image/upload`,
+          formData
+        );
+
+        uploadedImages.push(res.data.secure_url);
+      }
+
+      const productData = {
+        ...formData,
+        images: uploadedImages,
+      };
+      await addDoc(collection(db, "products"), productData);
+      alert("Product added successfully!");
+      setSelectedImages([])
+      setFormData({  
+        category: '',
+        title: '',
+        description: '',
+        price: '',
+        state: '',
+        District: '',
+      });
+    } catch (error) {
+      console.error("Error adding product: ", error);
+      alert("Failed to add product. Please try again.");
+    }
   };
+  
 
   return (
     <div className="containerr">
       <div className="form-container">
         <h1 className="form-title">Post Your Ad</h1>
-        
-        <div className="progress-bar">
-          <div className="progress-step completed">1</div>
-          <div className="progress-step active">2</div>
-          <div className="progress-step">3</div>
-          <div className="progress-line"></div>
-          <div className="progress-line-filled"></div>
-        </div>
-        
         <form id="post-ad-form" onSubmit={handleSubmit}>
           <div className="form-section">
             <h2 className="section-title">Select Category</h2>
-            <div className="category-selector">
-              <div className="category-list">
-                <div className="category-item active">Electronics & Appliances</div>
-                <div className="category-item">Cars</div>
-                <div className="category-item">Motorcycles</div>
-                <div className="category-item">Mobile Phones</div>
-                <div className="category-item">For Sale: Houses & Apartments</div>
-                <div className="category-item">Scooters</div>
-                <div className="category-item">Commercial & Other Vehicles</div>
-                <div className="category-item">For Rent: Houses & Apartments</div>
-              </div>
-              <div className="subcategory-list">
-                <div className="category-item active">Computer & Laptops</div>
-                <div className="category-item">TV, Video - Audio</div>
-                <div className="category-item">Kitchen & Other Appliances</div>
-                <div className="category-item">Computer Accessories</div>
-                <div className="category-item">Hard Disks, Printers & Monitors</div>
-                <div className="category-item">ACs</div>
-                <div className="category-item">Washing Machines</div>
-                <div className="category-item">Refrigerators</div>
-              </div>
+            <div className="form-group">
+              <label htmlFor="category">Category</label>
+              <input 
+                type="text" 
+                id="category" 
+                placeholder="Add Your Category" 
+                required
+                value={formData.category}
+                onChange={handleChange}
+                className='title-input'
+              />
             </div>
           </div>
           
@@ -87,6 +131,8 @@ export default function AddProduct() {
               />
               <div className="hint-text">Minimum 10 characters</div>
             </div>
+
+            
             
             <div className="form-group">
               <label htmlFor="description">Description *</label>
@@ -100,52 +146,8 @@ export default function AddProduct() {
               ></textarea>
               <div className="hint-text">Minimum 20 characters</div>
             </div>
+
             
-            <div className="form-group">
-              <label htmlFor="brand">Brand *</label>
-              <select 
-                id="brand" 
-                required
-                value={formData.brand}
-                onChange={handleChange}
-              >
-                <option value="">Select Brand</option>
-                <option value="hp">HP</option>
-                <option value="dell">Dell</option>
-                <option value="lenovo">Lenovo</option>
-                <option value="apple">Apple</option>
-                <option value="asus">Asus</option>
-                <option value="acer">Acer</option>
-                <option value="samsung">Samsung</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label>Condition *</label>
-              <div className="checkbox-group">
-                <input 
-                  type="radio" 
-                  id="condition-new" 
-                  name="condition" 
-                  value="new"
-                  checked={formData.condition === "new"}
-                  onChange={() => setFormData({...formData, condition: "new"})}
-                />
-                <label htmlFor="condition-new">New</label>
-              </div>
-              <div className="checkbox-group">
-                <input 
-                  type="radio" 
-                  id="condition-used" 
-                  name="condition" 
-                  value="used" 
-                  checked={formData.condition === "used"}
-                  onChange={() => setFormData({...formData, condition: "used"})}
-                />
-                <label htmlFor="condition-used">Used</label>
-              </div>
-            </div>
           </div>
           
           <div className="form-section">
@@ -160,86 +162,66 @@ export default function AddProduct() {
                   id="price" 
                   placeholder="Price" 
                   required
+                  min={1}
                   value={formData.price}
                   onChange={handleChange}
                   className='price-input'
                 />
               </div>
             </div>
-            
-            <div className="checkbox-group">
-              <input 
-                type="checkbox" 
-                id="negotiable"
-                checked={formData.negotiable}
-                onChange={handleChange}
-              />
-              <label htmlFor="negotiable">Negotiable</label>
-            </div>
           </div>
+
+
           
           <div className="form-section">
             <h2 className="section-title">Upload Photos</h2>
             
             <div className="image-upload">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <div className="upload-box" key={num}>
+                <div className="upload-box" >
                   <div className="upload-icon">+</div>
                   <span className="upload-text">Add Photo</span>
-                  <input type="file" className="upload-btn" />
+                  <input type="file" 
+                accept="image/*" 
+                multiple 
+                required
+                onChange={handleImageChange}
+                className="upload-btn" />
                 </div>
-              ))}
             </div>
             <div className="hint-text">First photo will be the cover image. Clear photos get more responses!</div>
           </div>
           
+
+
+
+
           <div className="form-section">
             <h2 className="section-title">Your Location</h2>
             
             <div className="form-group">
-              <label htmlFor="state">State *</label>
-              <select 
+              <label htmlFor="state">State</label>
+              <input 
+                type="text" 
                 id="state" 
+                placeholder="Mention your State" 
                 required
                 value={formData.state}
                 onChange={handleChange}
-              >
-                <option value="">Select State</option>
-                <option value="ca">California</option>
-                <option value="ny">New York</option>
-                <option value="tx">Texas</option>
-                <option value="fl">Florida</option>
-              </select>
+                className='title-input'
+              />
             </div>
             
             <div className="form-group">
-              <label htmlFor="city">City *</label>
-              <select 
-                id="city" 
+              <label htmlFor="District">District</label>
+              <input 
+                type="text" 
+                id="District" 
+                placeholder="Enter Your District" 
                 required
-                value={formData.city}
+                value={formData.District}
                 onChange={handleChange}
-              >
-                <option value="">Select City</option>
-                <option value="sf">San Francisco</option>
-                <option value="la">Los Angeles</option>
-                <option value="sd">San Diego</option>
-              </select>
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="neighborhood">Neighborhood *</label>
-              <select 
-                id="neighborhood" 
-                required
-                value={formData.neighborhood}
-                onChange={handleChange}
-              >
-                <option value="">Select Neighborhood</option>
-                <option value="downtown">Downtown</option>
-                <option value="uptown">Uptown</option>
-                <option value="midtown">Midtown</option>
-              </select>
+                className='title-input'
+              />
             </div>
           </div>
           

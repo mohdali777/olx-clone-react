@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext,  useState } from "react";
 import logo from '../../assets/logo.svg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch ,faClipboardList,faGear, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
@@ -6,15 +6,40 @@ import { faFileAlt, faBell,faHeart,faComment,faCreditCard, faCircleQuestion ,faC
 import './navbar.css'
 import { MyContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../firebase";
+import { toast } from "react-toastify";
 
 function Navbar (){
 const [dropStatus,setStatus] = useState(false)
 const {loginStatus,setLogin} = useContext(MyContext)
-const {showLogin,setShow} = useContext(MyContext)
+const {setShow,user} = useContext(MyContext)
 const navigate = useNavigate()
+
+function addProductHandle (){
+if(user){
+    navigate('/add-product')
+}else{
+    toast.error("Need To SignIn")
+}
+
+
+}
+
+if(user){
+    setLogin(true)
+}else{
+    setLogin(false)
+}
+
+async function handleLogout(){
+await logout()
+setLogin(false)
+setStatus(false)
+}
 
     return(
       <nav>
+        <div className="containerNav">
         <div className="Navbar" >
             <img src={logo} alt="" />
              <div className="inputFeild">
@@ -35,7 +60,7 @@ const navigate = useNavigate()
              </div>
              <div className="buttons">
                 <div className="iconsButtons">
-                <FontAwesomeIcon icon={faHeart} onClick={   ()=>navigate('/add-product')} className="iconB"/>
+                <FontAwesomeIcon icon={faHeart}  className="iconB"/>
                     {
                         loginStatus? <><FontAwesomeIcon icon={faBell} className="iconB"/>
                <FontAwesomeIcon icon={faComment} className="iconB"/></>:<></>
@@ -82,7 +107,7 @@ const navigate = useNavigate()
                         </li>
                         <li>
                         <FontAwesomeIcon icon={faArrowLeft} className="iconBb"/>
-                        <h1>Logout</h1></li>
+                        <h1 onClick={handleLogout} >Logout</h1></li>
                         </ul>
                     </div>
                 </div>:<></>}
@@ -92,13 +117,15 @@ const navigate = useNavigate()
                 </div></>}
                 
             <div className="button-container">
-                <button className="sell-button" onClick={()=> setLogin((prev)=>!prev)}>
+                <button className="sell-button" onClick={addProductHandle} >
                  <span className="plus">+</span>
                   <span>SELL</span>
                     </button>
                </div>
              </div>
         </div>
+        </div>
+        
       </nav>
       
     )

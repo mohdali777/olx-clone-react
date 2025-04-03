@@ -1,10 +1,12 @@
-body{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins';
 }
 .Container-card{
     width: 286px;
     height: 286px;
-    background-color: white;
+    background-color: rgba(245, 245, 245, 0);
     color: black;
     margin-left: 10px;
     border: 1px solid;
@@ -31,14 +33,15 @@ body{
     gap: 0px;
 }
 .description h3{
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 700;
 }
 .description p{
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 500;
 }
 .description .brand {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 300;
 }
 .description .location {
@@ -59,4 +62,77 @@ body{
     right: 30px;
     width: 23px;
     height: 23px;
+}
+
+@media (max-width:1200px) {
+    .Container-card{
+        width: 240px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width:960px) {
+    .Container-card{
+        width: 300px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 150px;
+        height: 150px;
+    }
+}
+@media (max-width:800px) {
+    .Container-card{
+        width: 500px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 180px;
+        height: 150px;
+    }
+}
+@media (max-width:660px) {
+    .Container-card{
+        width: 400px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 180px;
+        height: 150px;
+    }
+}
+
+@media (max-width:560px) {
+    .Container-card{
+        width: 300px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 150px;
+        height: 150px;
+    }
+}
+@media (max-width:460px) {
+    .Container-card{
+        width: 250px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 150px;
+        height: 150px;
+    }
+}
+@media (max-width:380px) {
+    .Container-card{
+        width: 240px;
+        height: 240px;
+    }
+    .Container-card img{
+        width: 150px;
+        height: 150px;
+    }
 }
