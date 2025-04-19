@@ -17,7 +17,7 @@ import Footer from "../../components/footer/footer";
 function Home (){
     const [products,setProducts] = useState([])
 
-    const {showLogin,setShow} = useContext(MyContext)
+    const {showLogin,setShow,counter,SetCounter} = useContext(MyContext)
     const {setLogin} = useContext(MyContext)
     const [Loginstates,SetLoginStates] = useState('Sign Up')
     const [username,setname] = useState('')
@@ -68,6 +68,8 @@ function Home (){
             }
         }
     }
+ 
+    
 
     return(
         <div  className={showLogin?"Container-div":"Container-div"}>
@@ -76,6 +78,8 @@ function Home (){
             <div className="Banner">
                 <img src={ad} alt="" />
             </div>
+            <h1>{counter}</h1>
+            <button onClick={()=> SetCounter((prev)=>prev+=1)}>Click</button>
             <div className="cards">
                 {products.map((product)=>(
                 <Card key={product.id}

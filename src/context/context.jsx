@@ -9,6 +9,7 @@ function Context({ children }) {
   const [loginStatus, setLogin] = useState(false);
   const [showLogin, setShow] = useState(false);
   const [user, setUser] = useState(null);
+  const [counter,SetCounter] = useState(0)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -19,7 +20,7 @@ function Context({ children }) {
   }, []);
 
   return (
-    <MyContext.Provider value={{ isLogin, changeLogin, loginStatus, setLogin, showLogin, setShow, user, setUser }}>
+    <MyContext.Provider value={{ isLogin, changeLogin, loginStatus, setLogin, showLogin, setShow, user, setUser,counter,SetCounter }}>
       {children}
     </MyContext.Provider>
   );
